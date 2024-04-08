@@ -2,6 +2,7 @@ import axios from 'axios'
 import router from '@/router/index'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from "@/stores/login";
+import { ElMessage } from 'element-plus';
 
 // 登录时的 token 时间戳，用于前端判断 token 是否过期
 const TokenTimestampKey: string = import.meta.env.VITE_TOKEN_TIMESTAMP_KEY
@@ -38,13 +39,15 @@ request.interceptors.request.use(
     }
     return config
   }, error => {
+    error && error.message && ElMessage.error(error.message)
     return Promise.reject(error)
   }
 )
 
 // 响应拦截器
 request.interceptors.response.use(response => {
-  if (response.data.status !== 200) {
+  if (response.data && response.data.status !== 200) {
+    response.data.message && ElMessage.error(response.data.message)
     return Promise.reject(response.data)
   } else {
     return response.data
@@ -55,6 +58,7 @@ request.interceptors.response.use(response => {
     userStore.logout(); // 调用退出登录，删除token
     router.push('/login')
   }
+  error && error.message && ElMessage.error(error.message)
   return Promise.reject(error) // 返回执行错误 让当前的执行链跳出成功 直接进入catch
 })
 
