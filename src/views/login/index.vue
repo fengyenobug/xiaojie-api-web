@@ -1,36 +1,93 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Login } from "@/api/user";
 import router from "@/router";
-import { useUserStore } from "@/stores/login";
-const userStore = useUserStore();
+import { Login } from "@/api/user";
+import { useLoginStore } from "@/stores/login";
+import { ElMessage } from 'element-plus';
+import { loginTimestampKey } from '@/common/config';
 
-const form = ref({
-  username: '',
-  password: ''
-})
+const loginStore = useLoginStore()
+const username = ref('')
+const password = ref('')
 const login = async () => {
   try {
-    const res = await Login({ username: form.value.username, password: form.value.password })
-    console.log('登录成功', res);
+    const res: any = await Login({ username: username.value, password: password.value })
+    loginStore.setToken(res.token)
+    localStorage.setItem(loginTimestampKey, String(Date.now()))
+    ElMessage.success('登录成功')
     router.push('/')
   } catch (error) {
     console.error(error)
   }
-};
+}
 
 </script>
 <template>
-  登录页
-  <el-form :model="form" label-width="auto" style="max-width: 600px">
-    <el-form-item label="用户名：">
-      <el-input v-model="form.username" />
-    </el-form-item>
-    <el-form-item label="密码：">
-      <el-input v-model="form.password" type="password" />
-    </el-form-item>
-  </el-form>
-  <el-button type="primary" @click="login">登录</el-button>
+  <div class="container">
+    <div class="card">
+      <div class="top">欢迎登录小杰API</div>
+      <div class="bottom">
+        <el-input v-model="username" placeholder="请输入账号" size="large">
+          <template #prefix>
+            <img class="login_icon" src="/src/assets/login/username.png" alt="">
+          </template>
+        </el-input>
+        <el-input v-model="password" type="password" placeholder="请输入密码" show-password>
+          <template #prefix>
+            <img class="login_icon" src="/src/assets/login/password.png" alt="">
+          </template>
+        </el-input>
+        <el-button type="primary" @click="login">登录</el-button>
+      </div>
+    </div>
+  </div>
 </template>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("/src/assets/login/login_bg.jpg") no-repeat;
+  background-size: 100% 100%;
+
+  .card {
+    position: absolute;
+    right: 200px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 460px;
+    height: 320px;
+    border-radius: 16px;
+    overflow: hidden;
+
+    .top {
+      height: 60px;
+      background-color: #F0F4F7;
+      text-align: center;
+      line-height: 60px;
+      color: #4e6bec;
+      font-size: 24px;
+    }
+
+    .bottom {
+      height: 260px;
+      background-color: #fff;
+      padding: 0 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+
+      .login_icon {
+        width: 20px;
+        height: 20px;
+      }
+
+      .el-button {
+        font-size: 24px;
+        color: #fff;
+      }
+    }
+  }
+}
+</style>
