@@ -1,16 +1,15 @@
-const TokenKey: string = import.meta.env.VITE_TOKEN_KEY
-
 // 创建组合式api仓库
+import { tokenKey } from "@/common/config"
 import { defineStore } from "pinia"
 import { ref } from "vue"
 
 // 创建 & 导出仓库
-export const useUserStore = defineStore('userStore', () => {
-  const token: any = ref(localStorage.getItem(TokenKey) || null)
+export const useLoginStore = defineStore('loginStore', () => {
+  const token: any = ref(localStorage.getItem(tokenKey) || null)
 
   const setToken = (tk: any) => {
     token.value = tk // 将数据设置给pinia
-    localStorage.setItem(TokenKey, tk) // 将数据同步给缓存
+    localStorage.setItem(tokenKey, tk) // 将数据同步给缓存
   }
 
   const logout = () => {
