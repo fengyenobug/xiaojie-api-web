@@ -27,14 +27,14 @@ const login = async () => {
     <div class="card">
       <div class="top">欢迎登录小杰API</div>
       <div class="bottom">
-        <el-input v-model="username" placeholder="请输入账号" size="large">
+        <el-input v-model="username" placeholder="请输入账号">
           <template #prefix>
-            <img class="login_icon" src="/src/assets/login/username.png" alt="">
+            <i class="iconfont icon-yonghuming"></i>
           </template>
         </el-input>
-        <el-input v-model="password" type="password" placeholder="请输入密码" show-password>
+        <el-input v-model="password" type="password" placeholder="请输入密码" @keyup.enter.native="login" show-password>
           <template #prefix>
-            <img class="login_icon" src="/src/assets/login/password.png" alt="">
+            <i class="iconfont icon-mima"></i>
           </template>
         </el-input>
         <el-button type="primary" @click="login">登录</el-button>
