@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia'
 import { useLoginStore } from "@/stores/login";
 import { ElMessage } from 'element-plus';
 import { axiosTimeOut, loginTimestampKey, tokenTimeOut } from '@/common/config';
-
+axios.defaults.withCredentials = true
 // 创建一个axios的实例
 const request = axios.create({
   baseURL: import.meta.env.VITE_XIAOJIEAPI_WEB_BASE_URL,
