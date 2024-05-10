@@ -9,6 +9,10 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    host: true,
+    open: true
+  },
   plugins: [
     vue(),
     // element-plus 自动引入插件
