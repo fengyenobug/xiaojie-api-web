@@ -8,3 +8,10 @@ export function Login(data: any) {
     data
   })
 }
+// 获取图形验证码
+export function GetCaptcha() {
+  return request({
+    url: '/getsvg',
+    method: 'get'
+  })
+}
