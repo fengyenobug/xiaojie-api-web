@@ -37,6 +37,7 @@ onMounted(() => getCaptcha())
 </script>
 <template>
   <div class="container">
+    <img class="bgimg" src="/src/assets/login/login_bg.jpg" alt="">
     <div class="card">
       <div class="top">欢迎登录小杰API</div>
       <div class="bottom">
@@ -70,12 +71,21 @@ onMounted(() => getCaptcha())
   position: relative;
   width: 100%;
   height: 100vh;
-  background: url("/src/assets/login/login_bg.jpg") no-repeat;
-  background-size: 100% 100%;
+
+  .bgimg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100vw;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
 
   .card {
     position: absolute;
-    right: 200px;
+    right: 10%;
     top: 50%;
     transform: translateY(-50%);
     width: 460px;
